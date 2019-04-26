@@ -127,5 +127,5 @@ if __name__ == "__main__":
 
         feets_and_inches = list(map(int, feets_and_inches))
         feets_and_inches = parse_feets_and_inches(feets_and_inches)
-        inches = map(lambda i: inches(i[0]) + i[1], feets_and_inches)
-        answers.append(max(inches))
+        _inches = list(map(lambda i: inches(i[0]) + i[1], feets_and_inches))
+        print(max(_inches))

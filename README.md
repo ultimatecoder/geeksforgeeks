@@ -42,6 +42,7 @@ Below is a sample structure to understand the categorization of solutions.
 
 * [Python][python]
 * [Pipenv][pipenv]
+* [Garud][garud]
 
 
 ## Build
@@ -65,6 +66,11 @@ libraries.
 
 This command will run the unit tests for all the solutions.
 
+```make end-to-end-tests```
+
+This command will run end to end test for all the programs.
+
+
 ## How to run a sultion program?
 
 If you want to run the solution for **Arrays -> Maximum In Struct Array**
@@ -80,3 +86,4 @@ problem, you should follow below steps.
 [python]: python.org
 [pipenv]: https://pipenv.readthedocs.io/en/latest/#install-pipenv-today
 [arrays]: https://practice.geeksforgeeks.org/explore/?category%5B%5D=Arrays&page=1&sortBy=accuracy
+[garud]: https://gist.github.com/ultimatecoder/801177083c722884d8e6ff76bb342c8d
