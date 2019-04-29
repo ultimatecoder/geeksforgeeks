@@ -13,12 +13,23 @@ are written in latest version of [Python][python] programming language.
 Below is a sample structure to understand the categorization of solutions.
 
 ```
+
+├── features
+│   ├── maximum_in_struct_array_works.feature
+│   ├── step_definitions
+│   └── support
+│       ├── env.rb
 ── programs
 │   ├── arrays
 │   │   ├── maximum_in_struct_array.py
 │   └── tests
 │       └── test_arrays
 ```
+
+* `features`: A [cucumber][cucumber] based functional test cases for each
+  solution of the program.  Test cases for each program is post-fixed with
+  `.feature`. The file `features/maximum_in_struct_array_works.feature` is a end
+  to end test case for `programs/arrays/maximum_in_struct_array.py`.
 
 * `program`: A top level directory where solutions to all the problems are
   stored. Child of this directory is a category directory or a test directory.
@@ -40,12 +51,21 @@ Below is a sample structure to understand the categorization of solutions.
 
 ## Dependencies
 
+### Run
+
 * [Python][python]
 * [Pipenv][pipenv]
-* [Garud][garud]
+
+### End to end tests
+
+* [Ruby][ruby]
+* [Cucumber][cucumber]
+* [Aruba][aruba]
 
 
 ## Build
+
+### Programs
 
 ```pipenv shell```
 
@@ -58,6 +78,13 @@ This command will install the Python dependencies. The source code of the
 program solutions is not dependent on any of these Python dependencies. The code
 of unit tests and end to end tests is dependent on a few [Python][python]
 libraries.
+
+### End to end tests
+
+```make build-dev```
+
+This command will intall dependencies to run the end to end tests. Make sure
+[Ruby][ruby] and [RubyGem][rubygem] is installed on your workstation.
 
 
 ## Commands
@@ -86,4 +113,7 @@ problem, you should follow below steps.
 [python]: python.org
 [pipenv]: https://pipenv.readthedocs.io/en/latest/#install-pipenv-today
 [arrays]: https://practice.geeksforgeeks.org/explore/?category%5B%5D=Arrays&page=1&sortBy=accuracy
-[garud]: https://gist.github.com/ultimatecoder/801177083c722884d8e6ff76bb342c8d
+[ruby]: https://www.ruby-lang.org/en/
+[rubygem]: https://rubygems.org/
+[cucumber]: https://cucumber.io
+[aruba]: https://app.cucumber.pro/projects/aruba
