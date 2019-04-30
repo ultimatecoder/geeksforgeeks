@@ -82,32 +82,3 @@ class TestQueue(unittest.TestCase):
                 self.assertEqual(
                     self.queue.dequeue(), expected_element
                 )
-
-
-
-class TestReverseElementsOfQueue(unittest.TestCase):
-
-    def test_validate_correct_values(self):
-        values_and_constraints = (
-            (3, lambda n: n >= 1),
-            (45, lambda n: (n >= 1) and (n <= 100))
-        )
-        for value, constraint in values_and_constraints:
-            with self.subTest(value=value):
-                self.assertTrue(
-                    reverse_first_k_elements_of_queue.validate(
-                        value, constraint
-                    )
-                )
-
-    def test_validate_wrong_values(self):
-        values_and_constraints = (
-            (3, lambda n: n <= 0),
-            (23, lambda n: (n >= 0) and (n <= 20)),
-        )
-        for value, constraint in values_and_constraints:
-            with self.subTest(value=value):
-                with self.assertRaises(ValueError):
-                    reverse_first_k_elements_of_queue.validate(
-                        value, constraint
-                    )

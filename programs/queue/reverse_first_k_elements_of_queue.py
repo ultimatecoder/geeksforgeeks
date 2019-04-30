@@ -47,6 +47,8 @@ Problem
 
             3 2 1 4 5
 """
+import utilities
+
 
 class Queue:
 
@@ -87,18 +89,9 @@ class Queue:
         self._elements = elements
 
 
-def validate(value, constraint):
-    """Raises 'ValidationError` value is violating constraint"""
-    if not constraint(value):
-        raise ValueError(
-            f"The value {value} is wrong against given constraints"
-        )
-    return True
-
-
 if __name__ == "__main__":
     number_of_test_cases = int(input(''))
-    validate(
+    utilities.validate(
         number_of_test_cases,
         lambda n: (n >= 1) and (n <= 100)
     )
@@ -107,13 +100,13 @@ if __name__ == "__main__":
         length_of_elements, elements_to_reverse = input('').split(' ')
 
         length_of_elements = int(length_of_elements)
-        validate(
+        utilities.validate(
             length_of_elements,
             lambda n: (n >= 1) and (n <= 1000)
         )
 
         elements_to_reverse = int(elements_to_reverse)
-        validate(
+        utilities.validate(
             elements_to_reverse,
             lambda n: (n >= 1) and (n <= length_of_elements)
         )
