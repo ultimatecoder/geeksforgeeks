@@ -49,44 +49,7 @@ Problem
 """
 import utilities
 
-
-class Queue:
-
-    def __init__(self):
-        self._elements = []
-
-    def enqueue(self, x):
-        """Add an item x to rear of queue"""
-        self._elements.append(x)
-
-    def dequeue(self):
-        """Remove an item from the front of queue"""
-        element = self._elements[0]
-        del self._elements[0]
-        return element
-
-    def size(self):
-        """Returns number of elements in queue"""
-        return len(self._elements)
-
-    def front(self):
-        """Finds front item"""
-        return self._elements[0]
-
-    def reverse(self, number_of_elements):
-        """Reverse the expected number of elements of queue"""
-        size = self.size()
-        stack = []
-        elements = []
-        for _ in range(number_of_elements):
-            stack.append(self.dequeue())
-
-        for _ in range(number_of_elements):
-            elements.append(stack.pop())
-
-        for _ in range(number_of_elements, size):
-            elements.append(self.dequeue())
-        self._elements = elements
+import queue
 
 
 if __name__ == "__main__":
@@ -113,11 +76,11 @@ if __name__ == "__main__":
         elements = input('').split(' ')
         elements = map(int, elements)
 
-        queue = Queue()
+        _queue = queue.Queue()
         for element in elements:
-            queue.enqueue(element)
-        queue.reverse(elements_to_reverse)
+            _queue.enqueue(element)
+        _queue.reverse(elements_to_reverse)
         output = []
-        for _ in range(queue.size()):
-            output.append(str(queue.dequeue()))
+        for _ in range(len(_queue)):
+            output.append(str(_queue.dequeue()))
         print(' '.join(output))
