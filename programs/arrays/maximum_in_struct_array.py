@@ -50,6 +50,8 @@ Explanation
         heights in to inches, we get 14 and 25 as respective heights. So, 25 is
         the maximum height.
 """
+import utilities
+
 
 def parse_feets_and_inches(feets_and_inches):
     """Parse feets and inches into individual iterator
@@ -88,42 +90,24 @@ def inches(feets):
     return 12*feets
 
 
-def validate(value, constraint):
-    """Validate given value with constraint
-
-    Arguments:
-        * value      : Value can be any data type value that have to checked
-                       against the constrains.
-        * constraint : Constraint is the callable which accepts single argument
-                       of value and returns True or False based on given value.
-
-    Exception:
-        Raises `ValueError` if the given value is failing against provided
-        constraint.
-
-    Example:
-        >>>validate(4, lambda v: v > 1)
-
-    The function ends silently if given value is valid against given
-    constraint.
-    """
-    if not constraint(value):
-        message = f"Given {value} is not valid against provided constraint"
-        raise ValueError(message)
-
-
 if __name__ == "__main__":
     answers = []
     number_of_testcases = int(input(''))
-    validate(number_of_testcases, lambda n: (1 <= n) and (n <= 100))
+    utilities.validate(number_of_testcases, lambda n: (1 <= n) and (n <= 100))
 
     for _ in range(number_of_testcases):
         length_of_inputs = int(input(''))
-        validate(length_of_inputs, lambda n: (1 <= n) and (n <= 10**5))
+        utilities.validate(
+            length_of_inputs, lambda n: (1 <= n) and (n <= 10**5)
+        )
 
         feets_and_inches = input('')
-        validate(len(feets_and_inches), lambda l: 2*length_of_inputs)
-        validate(len(feets_and_inches), lambda l: (l >= 0) and (l <= 10**5))
+        utilities.validate(
+            len(feets_and_inches), lambda l: 2*length_of_inputs
+        )
+        utilities.validate(
+            len(feets_and_inches), lambda l: (l >= 0) and (l <= 10**5)
+        )
 
         feets_and_inches = list(map(int, feets_and_inches))
         feets_and_inches = parse_feets_and_inches(feets_and_inches)
