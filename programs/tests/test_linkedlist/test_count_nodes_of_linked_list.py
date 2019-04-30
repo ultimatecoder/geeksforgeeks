@@ -2,21 +2,21 @@
 
 import unittest
 
-from linkedlist import count_nodes_of_linked_list
+from linkedlist import count_nodes_of_linkedlist
 
 
 class TestNode(unittest.TestCase):
 
     def setUp(self):
         self.data = 4
-        self.node = count_nodes_of_linked_list.Node(self.data)
+        self.node = count_nodes_of_linkedlist.Node(self.data)
 
     def test_node_is_inialized_appropriately(self):
         self.assertEqual(self.node.data, self.data)
         self.assertIsNone(self.node.next)
 
     def test_node_maintains_next_attribute(self):
-        next_node = count_nodes_of_linked_list.Node(self.data+1)
+        next_node = count_nodes_of_linkedlist.Node(self.data+1)
         self.node.next = next_node
 
         self.assertEqual(self.node.data, self.data)
@@ -32,7 +32,7 @@ class TestLinkedList(unittest.TestCase):
             linkedlist.add(iteration)
 
     def setUp(self):
-        self.linkedlist = count_nodes_of_linked_list.LinkedList()
+        self.linkedlist = count_nodes_of_linkedlist.LinkedList()
 
     def test_inital_data(self):
         self.assertIsNone(self.linkedlist.start)
