@@ -40,7 +40,7 @@ Example
 """
 import utilities
 
-from tree import binary_tree
+from tree import binary_tree, node
 
 
 def insert_key(tree, parent, key, side):
@@ -64,7 +64,7 @@ def insert_key(tree, parent, key, side):
         )
 
     if tree.root is None:
-        tree.root = binary_tree.Node(parent)
+        tree.root = node.Node(parent)
     if side == 'L':
         tree.insert_left_child(parent, key)
     else:

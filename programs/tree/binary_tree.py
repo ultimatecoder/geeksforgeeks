@@ -5,24 +5,7 @@ Collection of Classes giving functionality to use Binary Tree data structure.
 """
 
 from queue import queue
-
-
-class Node:
-    """Binary Tree Node
-
-    Node is responsible for storing the key and remember left child and right
-    child and its parent node.
-
-    Each element in Binary tree is presented as the Node.
-    Value of Left child or Right child can be empty or instance of other Node.
-    """
-
-    def __init__(self, key, parent=None):
-        """Takes key to be store in a Node"""
-        self.key = key
-        self.parent = parent
-        self.left = None
-        self.right = None
+from tree import node
 
 
 class Tree:
@@ -38,7 +21,7 @@ class Tree:
             * root_key: Value of key for root of the tree
         """
         if root_key is not None:
-            self.root = Node(root_key)
+            self.root = node.Node(root_key)
         else:
             self.root = None
 
@@ -86,7 +69,7 @@ class Tree:
 
         """
         parent_node = self.find(parent_key)
-        parent_node.left = Node(key, parent=parent_node)
+        parent_node.left = node.Node(key)
         return parent_node.left
 
     def insert_right_child(self, parent_key, key):
@@ -106,7 +89,7 @@ class Tree:
             Instance of Node added as the children
         """
         parent_node = self.find(parent_key)
-        parent_node.right = Node(key, parent=parent_node)
+        parent_node.right = node.Node(key)
         return parent_node.right
 
     @property
