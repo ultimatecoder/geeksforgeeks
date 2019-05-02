@@ -12,6 +12,7 @@ class TestNode(unittest.TestCase):
         root = node.Node(root_key)
 
         self.assertEqual(root.key, root_key)
+        self.assertEqual(root.count, 1)
         self.assertIsNone(root.right)
         self.assertIsNone(root.left)
 
@@ -20,6 +21,7 @@ class TestNode(unittest.TestCase):
         root.right = node.Node(root_right_key)
 
         self.assertEqual(root.right.key, root_right_key)
+        self.assertEqual(root.right.count, 1)
         self.assertIsNone(root.right.left)
         self.assertIsNone(root.right.right)
         self.assertIsNone(root.left)
@@ -29,7 +31,9 @@ class TestNode(unittest.TestCase):
         root.left = node.Node(root_left_key)
 
         self.assertEqual(root.left.key, root_left_key)
+        self.assertEqual(root.left.count, 1)
         self.assertEqual(root.right.key, root_right_key)
+        self.assertEqual(root.right.count, 1)
 
         self.assertIsNone(root.left.right)
         self.assertIsNone(root.left.left)

@@ -14,5 +14,6 @@ class Node:
     def __init__(self, key):
         """Takes key to be store in a Node"""
         self.key = key
+        self.count = 1
         self.left = None
         self.right = None
