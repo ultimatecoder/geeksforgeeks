@@ -84,7 +84,7 @@ if __name__ == "__main__":
         )
 
         elements = input('').split(' ')
-        elements = list(map(int, elements))t
+        elements = list(map(int, elements))
         validate_elements(elements, lambda n: (n >= 1) and (n <= 10**6))
         for element in elements:
             _queue.enqueue(element)
