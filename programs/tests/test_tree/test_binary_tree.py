@@ -12,23 +12,21 @@ class TestNode(unittest.TestCase):
         root = binary_tree.Node(root_key)
 
         self.assertEqual(root.key, root_key)
-        self.assertIsNone(root.parent)
         self.assertIsNone(root.right)
         self.assertIsNone(root.left)
 
         root_right_key = 4
 
-        root.right = binary_tree.Node(root_right_key, parent=root)
+        root.right = binary_tree.Node(root_right_key)
 
         self.assertEqual(root.right.key, root_right_key)
-        self.assertIs(root.right.parent, root)
         self.assertIsNone(root.right.left)
         self.assertIsNone(root.right.right)
         self.assertIsNone(root.left)
 
         root_left_key = 5
 
-        root.left = binary_tree.Node(root_left_key, parent=root)
+        root.left = binary_tree.Node(root_left_key)
 
         self.assertEqual(root.left.key, root_left_key)
         self.assertEqual(root.right.key, root_right_key)
@@ -38,9 +36,6 @@ class TestNode(unittest.TestCase):
 
         self.assertIsNone(root.right.right)
         self.assertIsNone(root.right.left)
-
-        self.assertIs(root.right.parent, root)
-        self.assertIs(root.left.parent, root)
 
 
 class TestTree(unittest.TestCase):
@@ -67,37 +62,34 @@ class TestTree(unittest.TestCase):
 
         tree = binary_tree.Tree(0)
 
-        tree.root.left = binary_tree.Node(key=1, parent=tree.root)
-        tree.root.right = binary_tree.Node(key=2, parent=tree.root)
+        tree.root.left = binary_tree.Node(key=1)
+        tree.root.right = binary_tree.Node(key=2)
 
-        tree.root.left.left = binary_tree.Node(key=3, parent=tree.root.left)
-        tree.root.left.right = binary_tree.Node(key=4, parent=tree.root.left)
+        tree.root.left.left = binary_tree.Node(key=3)
+        tree.root.left.right = binary_tree.Node(key=4)
 
         key_and_expected_values = (
             # Data representation
             #   Value at index 0 is key,
             #   Value at index 1 is expected_left_child_key
             #   Value at index 2 is expected_right_child_key,
-            #   Value at index 3 is expected_parent
             #)
-            (0, 1, 2, None),
-            (1, 3, 4, 0),
-            (2, None, None, 0),
-            (3, None, None, 1),
-            (4, None, None, 1),
+            (0, 1, 2),
+            (1, 3, 4),
+            (2, None, None),
+            (3, None, None),
+            (4, None, None),
         )
 
         for (
             key,
             expected_left_child_key,
             expected_right_child_key,
-            expected_parent_key
         ) in key_and_expected_values:
             with self.subTest(
                 key=key,
                 expected_left_child_key=expected_left_child_key,
                 expected_right_child_key=expected_right_child_key,
-                expected_parent_key=expected_parent_key
             ):
                 node = tree.find(key)
                 if expected_left_child_key is not None:
@@ -109,11 +101,6 @@ class TestTree(unittest.TestCase):
                     self.assertEqual(node.right.key, expected_right_child_key)
                 else:
                     self.assertIsNone(node.right)
-
-                if expected_parent_key is not None:
-                    self.assertEqual(node.parent.key, expected_parent_key)
-                else:
-                    self.assertIsNone(node.parent)
 
     def test_find_for_unknown_keys(self):
         tree = binary_tree.Tree(0)
@@ -138,8 +125,6 @@ class TestTree(unittest.TestCase):
         first_right_child = tree.insert_right_child(root_key, first_right_key)
 
         self.assertEqual(first_right_child.key, first_right_key)
-        self.assertIs(first_right_child.parent, tree.root)
-        self.assertIsNone(first_right_child.parent.left)
         self.assertIsNone(first_right_child.right)
         self.assertIsNone(first_right_child.left)
 
@@ -149,7 +134,6 @@ class TestTree(unittest.TestCase):
         )
 
         self.assertEqual(second_right_child.key, second_right_key)
-        self.assertIs(second_right_child.parent, tree.root.right)
         self.assertIsNone(second_right_child.right)
         self.assertIsNone(second_right_child.left)
 
@@ -176,8 +160,6 @@ class TestTree(unittest.TestCase):
         first_left_child = tree.insert_left_child(root_key, first_left_key)
 
         self.assertEqual(first_left_child.key, first_left_key)
-        self.assertIs(first_left_child.parent, tree.root)
-        self.assertIsNone(first_left_child.parent.right)
         self.assertIsNone(first_left_child.right)
         self.assertIsNone(first_left_child.left)
 
@@ -187,7 +169,6 @@ class TestTree(unittest.TestCase):
         )
 
         self.assertEqual(second_left_child.key, second_left_key)
-        self.assertIs(second_left_child.parent, tree.root.left)
         self.assertIsNone(second_left_child.right)
         self.assertIsNone(second_left_child.left)
 
