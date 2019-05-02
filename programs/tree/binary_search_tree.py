@@ -1,26 +1,16 @@
 #! /usr/bin/env python
 """Collection of classes for Binary Search Tree"""
 
-
-class Node:
-    """Responsible for strong key
-
-    Stores value of Key, a reference to its left child and right child
-    """
-
-    def __init__(self, key):
-        """Creates an instance of the Node
-
-        Arguments:
-            * key : A value of key to be store in the node
-        """
-        self.key = key
-        self.left = None
-        self.right = None
+from tree import node
+from queue import queue
 
 
 class Tree:
-    """Use this class to implement Binary Search Tree"""
+    """Use this class to implement Binary Search Tree
+
+    Duplicates
+        This tree allows duplicates by storing a count at Node instance.
+    """
 
     def __init__(self):
         self.root = None
@@ -34,12 +24,48 @@ class Tree:
         Return:
             Created instance of Node for the given key value
         """
-        pass
+        if self.root is None:
+            self.root = node.Node(key)
+        else:
+            _queue = queue.Queue()
+            _queue.enqueue(self.root)
 
+            while len(_queue) != 0:
+                _node = _queue.dequeue()
+                if key > _node.key:
+                    if _node.right is None:
+                        _node.right = node.Node(key)
+                    else:
+                        _queue.enqueue(_node.right)
+                elif key < _node.key:
+                    if _node.left is None:
+                        _node.left = node.Node(key)
+                    else:
+                        _queue.enqueue(_node.left)
+                else:
+                    _node.count += 1
+
+
+    @property
     def leaves(self):
         """Returns collection of leaves of Tree.
 
         Returns:
             List of keys of all the leaf nodes of the Tree.
         """
-        pass
+        leaves = []
+        if self.root is not None:
+            _queue = queue.Queue()
+            _queue.enqueue(self.root)
+
+            while len(_queue) != 0:
+                _node = _queue.dequeue()
+                if (_node.right is None) and (_node.left is None):
+                    for _ in range(_node.count):
+                        leaves.append(_node.key)
+                else:
+                    if _node.right is not None:
+                        _queue.enqueue(_node.right)
+                    if _node.left is not None:
+                        _queue.enqueue(_node.left)
+        return leaves

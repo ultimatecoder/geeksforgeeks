@@ -11,9 +11,8 @@ class Node:
     Value of Left child or Right child can be empty or instance of other Node.
     """
 
-    def __init__(self, key, parent=None):
+    def __init__(self, key):
         """Takes key to be store in a Node"""
         self.key = key
-        self.parent = parent
         self.left = None
         self.right = None
