@@ -26,4 +26,3 @@ def validate(value, constraint):
     if not constraint(value):
         message = f"Given {value} is not valid against provided constraint"
         raise ValueError(message)
-

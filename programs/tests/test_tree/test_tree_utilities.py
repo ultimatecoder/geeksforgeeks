@@ -2,7 +2,7 @@
 
 import unittest
 
-from tree import binary_tree, sum_of_leaf_nodes
+from tree import binary_tree, tree_utilities
 
 
 class TestSumOfLeafNodes(unittest.TestCase):
@@ -11,14 +11,14 @@ class TestSumOfLeafNodes(unittest.TestCase):
         self.tree = binary_tree.Tree()
 
     def test_insert_key_with_wrong_parent_key(self):
-        sum_of_leaf_nodes.insert_key(self.tree, 10, 20, 'L')
+        tree_utilities.insert_key(self.tree, 10, 20, 'L')
 
         with self.assertRaises(KeyError):
-            sum_of_leaf_nodes.insert_key(self.tree, 50, 60, 'R')
+            tree_utilities.insert_key(self.tree, 50, 60, 'R')
 
     def test_insert_key_with_wrong_side(self):
         with self.assertRaises(ValueError):
-            sum_of_leaf_nodes.insert_key(self.tree, 50, 60, 'J')
+            tree_utilities.insert_key(self.tree, 50, 60, 'J')
 
     def test_insert_key_works_appropriately(self):
         values = (
@@ -30,7 +30,7 @@ class TestSumOfLeafNodes(unittest.TestCase):
         )
         for parent, key, side in values:
             with self.subTest(parent=parent, key=key, side=side):
-                sum_of_leaf_nodes.insert_key(self.tree, parent, key, side)
+                tree_utilities.insert_key(self.tree, parent, key, side)
 
         self.assertEqual(self.tree.root.key, 10)
         self.assertEqual(self.tree.root.left.key, 20)
@@ -42,11 +42,11 @@ class TestSumOfLeafNodes(unittest.TestCase):
 
     def test_parse(self):
         self.assertListEqual(
-            sum_of_leaf_nodes.parse(["10", "20", "L", "10", "30", "R"]),
+            tree_utilities.parse(["10", "20", "L", "10", "30", "R"]),
             [(10, 20, "L"), (10, 30, "R")]
         )
         self.assertListEqual(
-            sum_of_leaf_nodes.parse(
+            tree_utilities.parse(
                 [
                     "10", "20", "L",
                     "10", "30", "R",
