@@ -39,48 +39,137 @@ Example
         26
         312
 """
+import utilities
 
-#def get_empty_cells(board):
-#    rows = len(board)
-#    columns = len(board[0])
-#    row_index = 0
-#    column_index = 0
-#
-#    for row_index, row in enumerate(board):
-#        for column_index, cell in enumerate(row):
-#            if cell is None:
-#                yield (row_index, column_index)
-#
-#
-#def backtrack(board, number_of_ways_counter=0):
-#
-#    for row_index, column_index in get_empty_cells(board):
-#        for knight in ['b', 'w']:
-#            board[row_index][column_index] = knight
-#            number_of_ways_counter += 1
-#            backtrack(board, number_of_ways_counter)
-#    return number_of_ways_counter
 
-def backtrack(board, row_index=0, column_index=0):
+def _get_empty_cells(
+    board, row_index_of_knight=None, column_index_of_knight=None
+):
+    """Gives empty cell with current situation of the board.
 
-    if (row_index == len(board)):
-        return
+    If the knight is present on board, then this method will avoid returning
+    positions in which existing knight can attack. If no positions were given
+    than this method assumes that there is no knight present on the board.
+
+    Arguments:
+        * row_index_of_knight: Row index of existing knight on board
+        * column_index_of_knight: Column index of existing knight on board
+
+    Raises
+        'StopIteration' when there are not cell left
+    """
+    total_rows = len(board)
+    total_columns = len(board[0])
+
+    row_index = 0
+    column_index = 0
+
+    if (
+        (row_index_of_knight is not None) and
+        (column_index_of_knight is not None)
+    ):
+        attack_sensitive_cells = list(_get_possible_moves_of_knight(
+            board, row_index_of_knight, column_index_of_knight
+        ))
     else:
-        for knight in ['b', 'w']:
-            board[row_index][column_index] = knight
-            print(board)
-            if (column_index < (len(board[0]) - 1)):
-                backtrack(board, row_index, column_index+1)
-            else:
-                backtrack(board, row_index+1, column_index=0)
+        attack_sensitive_cells = []
+
+    while row_index < total_rows:
+        while column_index < total_columns:
+            if (
+                (board[row_index][column_index] is None) and
+                ((row_index, column_index) not in attack_sensitive_cells)
+            ):
+                yield (row_index, column_index)
+            column_index += 1
+        column_index = 0
+        row_index += 1
+
+
+def _get_possible_moves_of_knight(
+    board, row_index_of_knight, column_index_of_knight
+):
+    total_rows = len(board)
+    total_columns = len(board[0])
+    # (Column, Row)
+    differences = (
+        (-2, +1),  # Left side down
+        (-2, -1),  # Left side up
+        (+2, +1),  # Right side down
+        (+2, -1),  # Right side up
+        (-1, -2),  # Up side left
+        (+1, -2),  # Up side right
+        (-1, +2),  # Down side left
+        (+1, +2),  # Down side right
+    )
+    for row_difference, column_difference in differences:
+        row_index = row_index_of_knight - row_difference
+        column_index = column_index_of_knight - column_difference
+        if (
+            ((row_index >= 0) and (row_index < total_rows)) and
+            ((column_index >= 0) and (column_index < total_columns))
+        ):
+            yield (row_index, column_index)
+
+
+def construct_board(number_of_rows, number_of_columns):
+    """Constructs an empty Chess board in the form of Matrix."""
+    board = []
+    row_index = 0
+    column_index = 0
+    while row_index < number_of_rows:
+        board.append([])
+        while column_index < number_of_columns:
+            board[row_index].append(None)
+            column_index += 1
+        column_index = 0
+        row_index += 1
+    return board
+
+
+def calculate_ways(board):
+    """Calculate ways for two different colored knights on a board
+
+    This method calculates the possible ways to place a two different colored
+    knights on a board in which both do not attack each other.
+
+    Arguments:
+        * board: The board is a Matrix of rows * columns. It represents an
+                 empty chess board.
+
+    Returns:
+        Counted ways in which both knights can be placed on a given chess board
+        without attacking each other.
+    """
+    number_of_ways_counter = 0
+
+    for row_index, column_index in _get_empty_cells(board):
+        board[row_index][column_index] = 'b'
+        for _row_index, _column_index in _get_empty_cells(
+            board, row_index, column_index
+        ):
+            board[_row_index][_column_index] = 'w'
+            number_of_ways_counter += 1
+            board[_row_index][_column_index] = None
         board[row_index][column_index] = None
+
+    return number_of_ways_counter
 
 
 if __name__ == "__main__":
-    board = [
-        [None, None],
-        [None, None]
-    ]
-    #number_of_ways = backtrack(board)
-    #print(number_of_ways)
-    backtrack(board)
+    number_of_test_cases = int(input(''))
+    utilities.validate(
+        number_of_test_cases, lambda t: (t >= 1) and (t <= 100)
+    )
+    for _ in range(number_of_test_cases):
+        number_of_rows, number_of_columns = input('').split(' ')
+        number_of_rows = int(number_of_rows)
+        utilities.validate(
+            number_of_rows, lambda r: (r >= 1) and (r <= 10**5)
+        )
+        number_of_columns = int(number_of_columns)
+        utilities.validate(
+            number_of_columns, lambda c: (c >= 1) and (c <= 10**5)
+        )
+        board = construct_board(number_of_rows, number_of_columns)
+        print(calculate_ways(board))
