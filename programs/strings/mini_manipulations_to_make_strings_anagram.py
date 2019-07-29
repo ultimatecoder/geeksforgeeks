@@ -63,10 +63,12 @@ class Bin:
 
     def __init__(self):
         self._character_table = defaultdict(int)
+        self._length = 0
 
     def add(self, character: str) -> None:
         """Adds a character to a bin"""
         self._character_table[character] += 1
+        self._length += 1
 
     def remove(self, character: str) -> None:
         """Takes given character out from bin
@@ -74,12 +76,14 @@ class Bin:
         If given character is not present in an instance of a Bin, then this
         method silently ignores it rather than raising an exception.
         """
-        self._character_table[character] -= 1
-        if self._character_table[character] <= 0:
-            del self._character_table[character]
+        if character in self._character_table:
+            self._character_table[character] -= 1
+            self._length -= 1
+            if self._character_table[character] == 0:
+                del self._character_table[character]
 
     def __len__(self) -> int:
-        return sum(self._character_table.values())
+        return self._length
 
 
 def calculate_different_characters(sequence_1: str, sequence_2: str) -> int:
