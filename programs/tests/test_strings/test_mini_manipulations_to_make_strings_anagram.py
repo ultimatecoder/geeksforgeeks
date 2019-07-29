@@ -57,8 +57,3 @@ class TestBin(TestCase):
             with self.subTest(character=character):
                 self.bin.remove(character)
         self.assertEqual(len(self.bin), 0)
-
-        for character in sample_characters:
-            with self.subTest(character=character):
-                with self.assertRaises(KeyError):
-                    self.bin.remove(character)

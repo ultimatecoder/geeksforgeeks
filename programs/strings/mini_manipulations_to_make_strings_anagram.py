@@ -69,21 +69,17 @@ class Bin:
         self._character_table[character] += 1
 
     def remove(self, character: str) -> None:
-        """Takes given character out from bin.
+        """Takes given character out from bin
 
-        If given character is not present, it will raise a KeyError.
+        If given character is not present in an instance of a Bin, then this
+        method silently ignores it rather than raising an exception.
         """
-        if character not in self._character_table:
-            raise KeyError(f"Given {character} is not present in Bin.")
         self._character_table[character] -= 1
-        if self._character_table[character] == 0:
+        if self._character_table[character] <= 0:
             del self._character_table[character]
 
     def __len__(self) -> int:
-        length = 0
-        for key, value in self._character_table.items():
-            length += value
-        return length
+        return sum(self._character_table.values())
 
 
 def calculate_different_characters(sequence_1: str, sequence_2: str) -> int:
@@ -106,12 +102,8 @@ def calculate_different_characters(sequence_1: str, sequence_2: str) -> int:
 
     """
     _bin = Bin()
-    different_characters = 0
     for character in sequence_1:
         _bin.add(character)
     for character in sequence_2:
-        try:
-            _bin.remove(character)
-        except KeyError:
-            different_characters += 1
-    return different_characters
+        _bin.remove(character)
+    return len(_bin)
