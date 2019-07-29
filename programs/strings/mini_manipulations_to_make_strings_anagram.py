@@ -59,8 +59,31 @@ Constraints
 from collections import defaultdict
 
 
-def _get_alphabet_index(alphabet):
-    return ord(alphabet) - 97
+class Bin:
+
+    def __init__(self):
+        self._character_table = defaultdict(int)
+
+    def add(self, character: str) -> None:
+        """Adds a character to a bin"""
+        self._character_table[character] += 1
+
+    def remove(self, character: str) -> None:
+        """Takes given character out from bin.
+
+        If given character is not present, it will raise a KeyError.
+        """
+        if character not in self._character_table:
+            raise KeyError(f"Given {character} is not present in Bin.")
+        self._character_table[character] -= 1
+        if self._character_table[character] == 0:
+            del self._character_table[character]
+
+    def __len__(self) -> int:
+        length = 0
+        for key, value in self._character_table.items():
+            length += value
+        return length
 
 
 def calculate_different_characters(sequence_1: str, sequence_2: str) -> int:
@@ -82,11 +105,13 @@ def calculate_different_characters(sequence_1: str, sequence_2: str) -> int:
         >>>4
 
     """
-    character_stats = defaultdict(int)
+    _bin = Bin()
+    different_characters = 0
     for character in sequence_1:
-        character_stats[character] += 1
+        _bin.add(character)
     for character in sequence_2:
-        character_stats[character] -= 1
-        if character_stats[character] == 0:
-            del character_stats[character]
-    return len(character_stats) // 2
+        try:
+            _bin.remove(character)
+        except KeyError:
+            different_characters += 1
+    return different_characters
